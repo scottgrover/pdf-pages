@@ -1,0 +1,5 @@
+downloaded/*
+.vscode/
+.DS_Store
+pdf-pages.sqlite
+*.csv
