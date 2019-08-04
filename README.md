@@ -11,6 +11,12 @@ python3 pdf-pages.py --help
 ```
 
 ### Usage: 
+
+#### To initialize the sqlite db:
+```
+python3 pdf-pages.py init
+```
+
 #### To add a file you'd like to download:
 We store links / output file names, we add stored links to the sqlite database with the add command. 
 ```
