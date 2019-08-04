@@ -1,5 +1,5 @@
 # pdf-pages 
-Download and store webpages as PDF
+A cli tool to store links. It also has the ability to download and store webpages as PDF.
 
 ### Prerequisites:
 Python3 / pip3
@@ -7,7 +7,7 @@ Python3 / pip3
 ### Set up:
 ```
 pip3 install -r requirements.txt
-python3 pdf-pages.py --help
+python3 pdf-pages.py help
 ```
 
 ### Usage: 
