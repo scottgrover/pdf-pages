@@ -17,6 +17,11 @@ We store links / output file names, we add stored links to the sqlite database w
 python3 pdf-pages.py add <url> <output file>
 ```
 
+#### To delete a file you've previously added:
+```
+python3 pdf-pages.py delete <output file>
+```
+
 #### Show contents of sqlitedb:
 ```
 python3 pdf-pages.py show
