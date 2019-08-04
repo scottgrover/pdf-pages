@@ -19,6 +19,7 @@ def print_usage():
     print("Add csv to database:         python3 pdf-pages csv <file_name>")
     print("-----------------------------------------------------------------------------------")
 
+# DB Functions:
 def create_connection(db_file):
     """ create a database connection to the SQLite database
         specified by db_file
@@ -46,6 +47,16 @@ def create_row(conn, row):
     print("Added new row.")
     return   
 
+def query_db(query):
+    conn = create_connection(sqlite_file)
+    with conn:
+        cur = conn.cursor()
+        cur.execute(query)
+        rows = cur.fetchall()
+    conn.close()
+    return rows
+
+# Helper functions:
 def yes_or_no(question):
     """ Get a yes or no input to a question
     :param question: yes or no question
@@ -59,6 +70,15 @@ def yes_or_no(question):
     else:
         return yes_or_no("Unexpected response, please enter ")
 
+def csv(): 
+    print("Take csv and add each entry to db")
+    conn = create_connection(sqlite_file)
+    with conn:
+        df = pandas.read_csv(sys.argv[2])
+        df.to_sql("documents", conn, if_exists='replace', index=False)
+    conn.close()
+
+# Main functionality:
 def init():
     if os.path.exists(sqlite_file):
         confirmation = yes_or_no("A sqlite db exists, would you like to overwrite the existing db?")
@@ -131,14 +151,10 @@ def delete():
         else:
             return
 
-def query_db(query):
-    conn = create_connection(sqlite_file)
-    with conn:
-        cur = conn.cursor()
-        cur.execute(query)
-        rows = cur.fetchall()
-    conn.close()
-    return rows
+def show():
+    rows = query_db("SELECT * FROM documents")
+    for row in rows:
+        print("| Source URL:", row[0], "| File Name:", row[1], " |")
 
 def download():
     rows = query_db("SELECT * FROM documents")
@@ -152,19 +168,6 @@ def download():
         else:
             print("Downloading ", url, "saving to:", filepath)
             pdfkit.from_url(url, filepath)
-
-def show():
-    rows = query_db("SELECT * FROM documents")
-    for row in rows:
-        print("| Source URL:", row[0], "| File Name:", row[1], " |")
-
-def csv(): 
-    print("Take csv and add each entry to db")
-    conn = create_connection(sqlite_file)
-    with conn:
-        df = pandas.read_csv(sys.argv[2])
-        df.to_sql("documents", conn, if_exists='replace', index=False)
-    conn.close()
 
 def main():
     if sys.argv[1] == "init":
